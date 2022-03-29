@@ -1,4 +1,10 @@
 .auth {
   @apply flex justify-center items-center;
   @apply min-h-screen;
+  &__container {
+    @apply flex flex-col;
+    &__form {
+      @apply flex flex-col;
+    }
+  }
 }
