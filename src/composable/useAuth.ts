@@ -1,6 +1,5 @@
 import {
   useAuthCreateUserWithEmailAndPassword,
-  useAuthReload,
   useAuthSendPasswordResetEmail,
   useAuthSignInWithEmailAndPassword,
   useAuthSignInWithPopup,
@@ -29,7 +28,6 @@ export const useAuth = () => {
   )
   const sendPasswordResetEmailMutation = useAuthSendPasswordResetEmail(auth)
   const signOutMutation = useAuthSignOut(auth)
-  const authReloadMutation = useAuthReload()
   const signUpMutation = useFunctionsCall(functions, 'onSignUp')
 
   // Query

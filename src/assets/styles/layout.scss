@@ -1,0 +1,33 @@
+.main-layout {
+  @apply w-full h-screen overflow-hidden;
+  @apply flex;
+
+  &__content {
+    @apply w-full overflow-auto;
+    @apply flex flex-col;
+    @apply bg-[#ffffff];
+
+    &__outlet {
+    }
+  }
+
+  .sidebar-layout {
+    @apply w-[256px] h-full;
+    @apply bg-background-primary border-r border-background-tertiary;
+
+    .workspace-switcher {
+      @apply flex items-center justify-between;
+      @apply w-full h-[80px] text-left text-sm;
+      @apply p-6;
+      &__text {
+        span {
+          @apply text-text-secondary text-xs;
+        }
+      }
+    }
+  }
+  .navbar-layout {
+    @apply w-full h-[56px] sticky top-0 flex-shrink-0;
+    @apply backdrop-filter backdrop-blur-3xl;
+  }
+}

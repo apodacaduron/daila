@@ -15,7 +15,7 @@ const SocialMediaButtons: React.FC = () => {
   }
 
   return (
-    <div className="social-buttons">
+    <div className="social-media-buttons">
       <LoadingButton
         {...buttonProps}
         loading={authInstance.isLoading}

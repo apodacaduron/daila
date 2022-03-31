@@ -2,9 +2,25 @@
   @apply flex justify-center items-center;
   @apply min-h-screen;
   &__container {
-    @apply flex flex-col;
+    @apply flex flex-col gap-4 mb-32;
+    h1 {
+      @apply text-3xl;
+    }
     &__form {
-      @apply flex flex-col;
+      @apply flex flex-col gap-4;
+    }
+    &__forgot-password, &__account {
+      @apply text-sm;
+    }
+    &__forgot-password, &__account > a {
+      @apply text-blue-primary;
+    }
+    &__forgot-password {
+      @apply text-right;
     }
   }
+}
+
+.social-media-buttons {
+  @apply flex gap-2;
 }

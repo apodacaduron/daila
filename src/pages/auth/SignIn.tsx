@@ -1,9 +1,10 @@
-import { TextField } from '@mui/material'
+import { FormControl, InputLabel } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import SocialMediaButtons from '../../components/auth/SocialMediaButtons'
 import '../../assets/styles/auth.scss'
+import { DTextField } from '../../config/material-ui/components'
 
 const SignIn: React.FC = () => {
   const formInstance = useForm()
@@ -18,15 +19,40 @@ const SignIn: React.FC = () => {
           onSubmit={formInstance.handleSubmit(onSubmit)}
           className="auth__container__form"
         >
-          <TextField {...formInstance.register('email', { required: true })} />
-          <TextField
-            {...formInstance.register('password', { required: true })}
-          />
-          <Link to="/auth/reset-password">Forgot your password?</Link>
-          <LoadingButton loading={false}>Sign in</LoadingButton>
+          <FormControl variant="standard">
+            <InputLabel shrink htmlFor="email">
+              Email
+            </InputLabel>
+            <DTextField
+              placeholder="johndoe@example.com"
+              type="email"
+              id="email"
+              {...formInstance.register('email', { required: true })}
+            />
+          </FormControl>
+          <FormControl variant="standard">
+            <InputLabel shrink htmlFor="password">
+              Password
+            </InputLabel>
+            <DTextField
+              placeholder="•••••••••"
+              type="password"
+              id="password"
+              {...formInstance.register('email', { required: true })}
+            />
+          </FormControl>
+          <Link
+            className="auth__container__forgot-password"
+            to="/reset-password"
+          >
+            Forgot your password?
+          </Link>
+          <LoadingButton variant="contained" loading={false}>
+            Sign in
+          </LoadingButton>
         </form>
         <div className="auth__container__account">
-          Don't have an account yet? <Link to="/auth/sign-up">Sign up</Link>
+          Don't have an account yet? <Link to="/sign-up">Sign up</Link>
         </div>
         <SocialMediaButtons />
       </div>
