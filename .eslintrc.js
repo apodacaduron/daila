@@ -22,6 +22,6 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'react/react-in-jsx-scope': 'off',
-    'react/prop-types': [2, { ignore: ['children'] }],
+    'react/prop-types': 'off',
   },
 }
