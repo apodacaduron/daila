@@ -38,6 +38,7 @@ export const useAuth = () => {
     signInWithPopupMutation.isLoading ||
     createUserWithEmailAndPasswordMutation.isLoading ||
     signUpMutation.isLoading
+  const isAuthenticated = Boolean(authUserQuery.data)
 
   // Handlers
   const signInWithPopup = async (provider: Provider) => {
@@ -73,6 +74,7 @@ export const useAuth = () => {
 
     // Variables
     isLoading,
+    isAuthenticated,
 
     // Handlers
     signInWithPopup,

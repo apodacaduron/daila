@@ -16,18 +16,19 @@ export const onSignUp = functions.https.onCall(async (data, context) => {
   await admin.auth().setCustomUserClaims(context.auth.token.uid, {
     role: userRole,
   });
-  const result = await usersRef
+  const currentAuthUser = await admin.auth().getUser(context.auth.uid)
+  await usersRef
       .doc(context.auth.uid)
       .set({
-        email: userEmail,
-        role: userRole,
-        hasWorkspace: false,
-        avatar: context.auth.token?.avatar ?? null,
-        phoneNumber: context.auth.token?.phone_number ?? null,
+        email: currentAuthUser.email ?? null,
+        photoURL: currentAuthUser.photoURL ?? null,
+        phoneNumber: currentAuthUser.phoneNumber ?? null,
+        userSettings: {
+          hasWorkspace: false,
+          lastWorkspace: null
+        },
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });
-
-  if (!result) return;
 
   return {message: "User has been created on firestore"};
 });

@@ -29,5 +29,14 @@
   .navbar-layout {
     @apply w-full h-[56px] sticky top-0 flex-shrink-0;
     @apply backdrop-filter backdrop-blur-3xl;
+    @apply flex items-center justify-between;
+    @apply p-[24px];
+
+    .profile-menu {
+      @apply flex items-center;
+      &__text {
+        @apply mr-4;
+      }
+    }
   }
 }
