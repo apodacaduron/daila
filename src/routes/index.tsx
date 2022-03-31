@@ -1,12 +1,14 @@
 import React from 'react'
-import { RouteObject, useRoutes, Navigate } from 'react-router-dom'
+import { RouteObject, useRoutes, Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../composable/useAuth'
 
 const RequireAuth = React.lazy(() => import('./RequireAuth'))
 const NotAuth = React.lazy(() => import('./NotAuth'))
 
-const Home = React.lazy(() => import('../pages/Home'))
 const MainLayout = React.lazy(() => import('../layouts/MainLayout'))
+
+const Home = React.lazy(() => import('../pages/Home'))
+const CreateWorkspace = React.lazy(() => import('../pages/workspaces/CreateWorkspace'))
 const Dashboard = React.lazy(() => import('../pages/psychologist/Dashboard'))
 const SignIn = React.lazy(() => import('../pages/auth/SignIn'))
 const SignUp = React.lazy(() => import('../pages/auth/SignUp'))
@@ -51,6 +53,24 @@ const RoutesWrapper: React.FC = () => {
         {
           path: 'dashboard',
           element: <Dashboard />,
+        },
+      ],
+    },
+    {
+      path: 'workspaces',
+      element: (
+        <RequireAuth authUserQuery={authInstance.authUserQuery}>
+          <Outlet />
+        </RequireAuth>
+      ),
+      children: [
+        {
+          path: '',
+          element: <Navigate to="create" />,
+        },
+        {
+          path: 'create',
+          element: <CreateWorkspace />,
         },
       ],
     },

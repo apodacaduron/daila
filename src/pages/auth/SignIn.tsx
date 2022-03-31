@@ -52,7 +52,7 @@ const SignIn: React.FC = () => {
           </LoadingButton>
         </form>
         <div className="auth__container__account">
-          Don't have an account yet? <Link to="/sign-up">Sign up</Link>
+          Don&apos;t have an account yet? <Link to="/sign-up">Sign up</Link>
         </div>
         <SocialMediaButtons />
       </div>

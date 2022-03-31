@@ -1,0 +1,13 @@
+.create-workspace {
+  @apply w-full h-screen;
+  @apply flex justify-center items-center;
+  &__container {
+    @apply flex flex-col gap-4 mb-32;
+    h1 {
+      @apply text-3xl;
+    }
+    &__form {
+      @apply flex flex-col gap-4;
+    }
+  }
+}
