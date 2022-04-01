@@ -1,14 +1,14 @@
 import { LoadingButton } from '@mui/lab'
 import { FormControl, InputLabel } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { DTextField } from '../../config/material-ui/components'
+import { DSelect, DTextField, StyledOption } from '../../config/material-ui/components'
 import '../../assets/styles/workspaces.scss'
 import { useWorkspace } from '../../composables/useWorkspace'
-import { Workspace } from '../../utils/types/workspace'
+import type { Workspace as WorkspaceType } from '../../utils/types/workspace'
 
 const CreateWorkspace: React.FC = () => {
   const workspaceInstance = useWorkspace()
-  const formInstance = useForm<Pick<Workspace, 'name' | 'description'>>()
+  const formInstance = useForm<Pick<WorkspaceType, 'name' | 'description'>>()
 
   const onSubmit = formInstance.handleSubmit((formValues) =>
     workspaceInstance.createWorkspace(formValues),
@@ -40,6 +40,16 @@ const CreateWorkspace: React.FC = () => {
               rows={4}
               {...formInstance.register('description')}
             />
+          </FormControl>
+          <FormControl variant="standard">
+            <InputLabel shrink htmlFor="description">
+              Workspace layout
+            </InputLabel>
+            <DSelect defaultValue={10}>
+              <StyledOption value={10}>Ten</StyledOption>
+              <StyledOption value={20}>Twenty</StyledOption>
+              <StyledOption value={30}>Thirty</StyledOption>
+            </DSelect>
           </FormControl>
           <LoadingButton type="submit" variant="contained" loading={formInstance.formState.isSubmitting}>
             Create workspace
