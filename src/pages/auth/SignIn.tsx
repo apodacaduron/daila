@@ -47,7 +47,7 @@ const SignIn: React.FC = () => {
           >
             Forgot your password?
           </Link>
-          <LoadingButton variant="contained" loading={false}>
+          <LoadingButton type="submit" variant="contained" loading={formInstance.formState.isSubmitting}>
             Sign in
           </LoadingButton>
         </form>

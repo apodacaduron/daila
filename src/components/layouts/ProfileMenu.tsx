@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { useMenu } from 'use-mui'
-import { useAuth } from '../../composable/useAuth'
+import { useAuth } from '../../composables/useAuth'
 import { DMenu } from '../../config/material-ui/components'
 
 const ProfileMenu: React.FC = () => {

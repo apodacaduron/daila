@@ -1,7 +1,7 @@
 import { Apple, Facebook, Google, Twitter } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import { ButtonProps } from '@mui/material'
-import { useAuth } from '../../composable/useAuth'
+import { useAuth } from '../../composables/useAuth'
 import { googleAuthProvider } from '../../config/firebase'
 
 const SocialMediaButtons: React.FC = () => {

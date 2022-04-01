@@ -41,7 +41,7 @@ const SignUp: React.FC = () => {
               {...formInstance.register('email', { required: true })}
             />
           </FormControl>
-          <LoadingButton variant="contained" loading={false}>
+          <LoadingButton type="submit" variant="contained" loading={formInstance.formState.isSubmitting}>
             Sign up
           </LoadingButton>
         </form>

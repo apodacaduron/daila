@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouteObject, useRoutes, Navigate, Outlet } from 'react-router-dom'
-import { useAuth } from '../composable/useAuth'
+import { useAuth } from '../composables/useAuth'
 
 const RequireWorkspace = React.lazy(() => import('./RequireWorkspace'))
 const RequireAuth = React.lazy(() => import('./RequireAuth'))

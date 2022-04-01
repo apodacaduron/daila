@@ -1,6 +1,6 @@
 import { AuthError, User } from 'firebase/auth'
 import { UseQueryResult } from 'react-query'
-import { useGetUserById } from '../composable/useUser'
+import { useGetUserById } from '../composables/useUser'
 import { Navigate } from 'react-router-dom'
 
 interface Props {
@@ -15,7 +15,6 @@ const RequireWorkspace: React.FC<Props> = (props) => {
   }
 
   const user = getUserByIdQuery.data?.data()
-  console.log(getUserByIdQuery, user)
   const lastWorkspace = user?.userSettings?.lastWorkspace
 
   return lastWorkspace ? <>{props.children}</> : <Navigate replace to="/workspaces/create" />
