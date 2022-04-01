@@ -1,10 +1,20 @@
-import { alpha, styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import { Menu, MenuProps } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles'
+import InputBase from '@mui/material/InputBase'
+import { Menu } from '@mui/material'
 
 export const DTextField = styled(InputBase)(({ theme }) => ({
   'label + &': {
     marginTop: theme.spacing(3),
+  },
+  '&.Mui-error': {
+    '& .MuiInputBase-input': {
+      backgroundColor: alpha(theme.palette.error.main, 0.05),
+      border: `1px solid ${alpha(theme.palette.error.main, 0.25)}`,
+      '&:focus': {
+        boxShadow: `${alpha(theme.palette.error.main, 0.25)} 0 0 0 0.2rem`,
+        borderColor: theme.palette.error.main,
+      },
+    },
   },
   '& .MuiInputBase-input': {
     borderRadius: 8,

@@ -31,13 +31,12 @@ export const onCreateWorkspace = functions.https.onCall(
     const user = userSnapshot.data()
 
     await usersRef.update({
-      userSettings: {
-        hasWorkspace: true,
-        lastWorkspace: { ...data, id: workspacesRef.id },
+      specialistSettings: {
+        lastWorkspaceId: workspacesRef.id,
         workspaces: {
-          ...user?.userSettings.workspaces,
+          ...user?.specialistSettings.workspaces,
           [workspacesRef.id]: {
-            name: data.name,
+            ...data,
             role: 'owner',
           },
         }

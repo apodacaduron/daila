@@ -7,15 +7,11 @@ import {
   useAuthUser,
 } from '@react-query-firebase/auth'
 import { useFunctionsCall } from '@react-query-firebase/functions'
-import { GoogleAuthProvider } from 'firebase/auth'
+import type { GoogleAuthProvider } from 'firebase/auth'
 import { auth, functions } from '../config/firebase'
+import type { SignIn, SignUp } from '../utils/types/auth'
 
 type Provider = GoogleAuthProvider
-
-type SignIn = {
-  email: string;
-  password: string;
-}
 
 export const useAuth = () => {
   // Mutations
@@ -51,7 +47,7 @@ export const useAuth = () => {
   const signInWithCredentials = async (data: SignIn) =>
     signInWithEmailAndPasswordMutation.mutateAsync(data)
 
-  const signUpWithCredentials = async (data: SignIn) => {
+  const signUpWithCredentials = async (data: SignUp) => {
     await createUserWithEmailAndPasswordMutation.mutateAsync(data)
     await signUpMutation.mutateAsync({})
   }

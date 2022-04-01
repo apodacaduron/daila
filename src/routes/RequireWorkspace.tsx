@@ -15,9 +15,9 @@ const RequireWorkspace: React.FC<Props> = (props) => {
   }
 
   const user = getUserByIdQuery.data?.data()
-  const lastWorkspace = user?.userSettings?.lastWorkspace
+  const lastWorkspaceId = user?.specialistSettings?.lastWorkspaceId
 
-  return lastWorkspace ? <>{props.children}</> : <Navigate replace to="/workspaces/create" />
+  return lastWorkspaceId ? <>{props.children}</> : <Navigate replace to="/workspaces/create" />
 }
 
 export default RequireWorkspace

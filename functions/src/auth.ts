@@ -23,9 +23,9 @@ export const onSignUp = functions.https.onCall(async (data, context) => {
         email: currentAuthUser.email ?? null,
         photoURL: currentAuthUser.photoURL ?? null,
         phoneNumber: currentAuthUser.phoneNumber ?? null,
-        userSettings: {
-          hasWorkspace: false,
-          lastWorkspace: null
+        specialistSettings: {
+          lastWorkspaceId: null,
+          workspaces: null
         },
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });

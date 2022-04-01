@@ -1,25 +1,32 @@
-import { FormControl, InputLabel } from '@mui/material'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+} from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import SocialMediaButtons from '../../components/auth/SocialMediaButtons'
 import '../../assets/styles/auth.scss'
 import { DTextField } from '../../config/material-ui/components'
+import { useAuth } from '../../composables/useAuth'
+import type { SignIn as SignInType } from '../../utils/types/auth'
+import { emailValidation, passwordValidation } from '../../utils/validations'
 
 const SignIn: React.FC = () => {
-  const formInstance = useForm()
+  const authInstance = useAuth()
+  const formInstance = useForm<SignInType>()
 
-  const onSubmit = (formValues: any) => console.log(formValues)
+  const onSubmit = formInstance.handleSubmit((formValues) =>
+    authInstance.signInWithCredentials(formValues),
+  )
 
   return (
     <div className="auth">
       <div className="auth__container">
         <h1>Sign in</h1>
-        <form
-          onSubmit={formInstance.handleSubmit(onSubmit)}
-          className="auth__container__form"
-        >
-          <FormControl variant="standard">
+        <form onSubmit={onSubmit} className="auth__container__form">
+          <FormControl error={Boolean(formInstance.formState.errors.email)} variant="standard">
             <InputLabel shrink htmlFor="email">
               Email
             </InputLabel>
@@ -27,10 +34,17 @@ const SignIn: React.FC = () => {
               placeholder="johndoe@example.com"
               type="email"
               id="email"
-              {...formInstance.register('email', { required: true })}
+              error={Boolean(formInstance.formState.errors.email)}
+              {...formInstance.register('email', emailValidation)}
             />
+            <FormHelperText>
+              {formInstance.formState.errors.email?.message}
+            </FormHelperText>
           </FormControl>
-          <FormControl variant="standard">
+          <FormControl
+            error={Boolean(formInstance.formState.errors.password)}
+            variant="standard"
+          >
             <InputLabel shrink htmlFor="password">
               Password
             </InputLabel>
@@ -38,8 +52,12 @@ const SignIn: React.FC = () => {
               placeholder="•••••••••"
               type="password"
               id="password"
-              {...formInstance.register('email', { required: true })}
+              error={Boolean(formInstance.formState.errors.password)}
+              {...formInstance.register('password', passwordValidation)}
             />
+            <FormHelperText>
+              {formInstance.formState.errors.password?.message}
+            </FormHelperText>
           </FormControl>
           <Link
             className="auth__container__forgot-password"
@@ -47,7 +65,11 @@ const SignIn: React.FC = () => {
           >
             Forgot your password?
           </Link>
-          <LoadingButton type="submit" variant="contained" loading={formInstance.formState.isSubmitting}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={formInstance.formState.isSubmitting}
+          >
             Sign in
           </LoadingButton>
         </form>
