@@ -30,7 +30,7 @@
     @apply w-full h-[56px] sticky top-0 flex-shrink-0;
     @apply backdrop-filter backdrop-blur-3xl;
     @apply flex items-center justify-between;
-    @apply px-[24px];
+    @apply px-[24px] z-50;
 
     .navbar-layout__left {
       @apply w-full h-full flex;

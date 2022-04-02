@@ -3,3 +3,16 @@
   @apply bg-opacity-80 bg-background-primary;
   @apply flex justify-center items-center;
 }
+
+.title-bar {
+  @apply flex justify-between items-center;
+  @apply w-full px-6 py-6;
+  &__text {
+    &__primary {
+      @apply text-4xl;
+    }
+    &__secondary {
+      @apply text-text-secondary;
+    }
+  }
+}
