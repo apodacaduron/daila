@@ -36,6 +36,12 @@ const WorkspaceSwitcher: React.FC = () => {
     navigate('/workspaces/create')
   }
 
+  const navigateToWorkspace = (workspace: any) => {
+    menuInstance.handleClose()
+    navigate(`/${workspace.id}/${workspace.layout}`)
+    workspaceInstance.switchWorkspace(workspace)
+  }
+
   return (
     <>
       <button className="workspace-switcher" onClick={openMenu}>
@@ -50,12 +56,19 @@ const WorkspaceSwitcher: React.FC = () => {
         onClose={menuInstance.handleClose}
         open={menuInstance.open}
       >
-        <MenuItem onClick={menuInstance.handleClose}>
-          <ListItemIcon>
-            <Avatar sx={{ width: '20px', height: '20px' }} />
-          </ListItemIcon>
-          <ListItemText>Personal workspace</ListItemText>
-        </MenuItem>
+        {workspaceInstance.workspacesList.map((workspace: any) => {
+          return (
+            <MenuItem
+              key={workspace.id}
+              onClick={() => navigateToWorkspace(workspace)}
+            >
+              <ListItemIcon>
+                <Avatar sx={{ width: '20px', height: '20px' }} />
+              </ListItemIcon>
+              <ListItemText>{workspace.name}</ListItemText>
+            </MenuItem>
+          )
+        })}
         <Divider />
         <MenuItem onClick={menuInstance.handleClose}>
           <ListItemIcon>

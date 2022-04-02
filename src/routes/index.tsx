@@ -10,10 +10,15 @@ const MainLayout = React.lazy(() => import('../layouts/MainLayout'))
 
 const Home = React.lazy(() => import('../pages/Home'))
 const CreateWorkspace = React.lazy(() => import('../pages/workspaces/CreateWorkspace'))
-const Dashboard = React.lazy(() => import('../pages/psychologist/Dashboard'))
 const SignIn = React.lazy(() => import('../pages/auth/SignIn'))
 const SignUp = React.lazy(() => import('../pages/auth/SignUp'))
 const PageNotFound = React.lazy(() => import('../pages/PageNotFound'))
+
+// Psychologist
+const PsychologistDashboard = React.lazy(() => import('../pages/psychologist/Dashboard'))
+
+// Teacher
+const TeacherDashboard = React.lazy(() => import('../pages/teacher/Dashboard'))
 
 const RoutesWrapper: React.FC = () => {
   const authInstance = useAuth()
@@ -55,7 +60,27 @@ const RoutesWrapper: React.FC = () => {
         },
         {
           path: 'dashboard',
-          element: <Dashboard />,
+          element: <PsychologistDashboard />,
+        },
+      ],
+    },
+    {
+      path: ':workspaceId/teacher',
+      element: (
+        <RequireAuth authUserQuery={authInstance.authUserQuery}>
+          <RequireWorkspace authUserQuery={authInstance.authUserQuery}>
+            <MainLayout />
+          </RequireWorkspace>
+        </RequireAuth>
+      ),
+      children: [
+        {
+          path: '',
+          element: <Navigate to="dashboard" />,
+        },
+        {
+          path: 'dashboard',
+          element: <TeacherDashboard />,
         },
       ],
     },

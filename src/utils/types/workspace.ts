@@ -2,6 +2,10 @@ export const workspaceLayoutOptions = [
   {
     text: 'Psychologist',
     value: 'psychologist'
+  },
+  {
+    text: 'Teacher',
+    value: 'teacher'
   }
 ]
 
