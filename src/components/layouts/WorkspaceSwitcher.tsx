@@ -6,6 +6,7 @@ import {
 import {
   Avatar,
   Divider,
+  ListItemAvatar,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -15,9 +16,11 @@ import { useNavigate } from 'react-router-dom'
 import { useMenu } from 'use-mui'
 import { useWorkspace } from '../../composables/useWorkspace'
 import { DMenu } from '../../config/material-ui/components'
+import { useColor } from '../../hooks/useColor'
 
 const WorkspaceSwitcher: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const { stringToHex } = useColor()
   const navigate = useNavigate()
   const workspaceInstance = useWorkspace()
   const menuInstance = useMenu({
@@ -43,6 +46,16 @@ const WorkspaceSwitcher: React.FC = () => {
     workspaceInstance.switchWorkspace(workspace)
   }
 
+  function stringAvatar(name: string) {
+    console.log(stringToHex(name))
+    return {
+      sx: {
+        bgcolor: stringToHex(name),
+      },
+      children: name.charAt(0).toUpperCase(),
+    }
+  }
+
   return (
     <>
       <button className="workspace-switcher" onClick={openMenu}>
@@ -63,10 +76,13 @@ const WorkspaceSwitcher: React.FC = () => {
               key={workspace.id}
               onClick={() => navigateToWorkspace(workspace)}
             >
-              <ListItemIcon>
-                <Avatar sx={{ width: '20px', height: '20px' }} />
-              </ListItemIcon>
-              <ListItemText>{workspace.name}</ListItemText>
+              <ListItemAvatar>
+                <Avatar {...stringAvatar(workspace.name)} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={workspace.name}
+                secondary={workspace.layout}
+              />
             </MenuItem>
           )
         })}

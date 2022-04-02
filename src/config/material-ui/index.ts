@@ -29,6 +29,14 @@ const themeOptions: ThemeOptions = {
         }
       }
     },
+    MuiListItemText: {
+      styleOverrides: {
+        secondary: {
+          color: '#A0A6B1',
+          fontSize: '12px'
+        }
+      }
+    }
   }
 }
 
