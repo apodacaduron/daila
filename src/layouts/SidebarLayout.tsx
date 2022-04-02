@@ -3,11 +3,13 @@ import React from 'react'
 import { NavLink, NavLinkProps } from 'react-router-dom'
 import { WorkspaceSwitcher } from '../components/layouts'
 import { useWorkspace } from '../composables/useWorkspace'
-import { getSidebarMenu } from './sidebarRoutesParser'
+import { getSidebarMenu } from './sidebarRoutes'
+import { sentenceCase } from 'sentence-case'
 
 type RouterLinkProps = React.PropsWithChildren<{
   to: string
   text: string
+  icon: React.ReactNode
 }>
 
 const RouterLink = (props: RouterLinkProps) => {
@@ -41,26 +43,24 @@ const RouterLink = (props: RouterLinkProps) => {
       <ListItemIcon
         sx={{
           '.Mui-selected > &': { color: (theme) => theme.palette.primary.main },
+          minWidth: '35px',
         }}
       >
-        {/* {props.icon} */}
+        {props.icon}
       </ListItemIcon>
-      <ListItemText primary={props.text} />
+      <ListItemText
+        primary={props.text}
+        sx={{
+          '.Mui-selected > &': { color: (theme) => theme.palette.primary.main },
+          '&': { color: 'rgba(0, 0, 0, 0.54)' },
+        }}
+      />
     </ListItemButton>
   )
 }
 
 const SidebarLayout: React.FC = () => {
   const workspaceInstance = useWorkspace()
-
-  React.useEffect(() => {
-    console.log(
-      getSidebarMenu(
-        workspaceInstance.currentWorkspace.id,
-        workspaceInstance.currentWorkspace.layout,
-      ),
-    )
-  }, [workspaceInstance.currentWorkspace.id])
 
   const sidebarMenuRoutes = () =>
     getSidebarMenu(
@@ -72,7 +72,12 @@ const SidebarLayout: React.FC = () => {
       <WorkspaceSwitcher workspaceInstance={workspaceInstance} />
       <List>
         {sidebarMenuRoutes()?.map((route) => (
-          <RouterLink key={route.to} to={route.to} text={route.path} />
+          <RouterLink
+            key={route.to}
+            to={route.to}
+            text={sentenceCase(route.path)}
+            icon={route.icon}
+          />
         ))}
       </List>
     </div>
