@@ -30,12 +30,26 @@
     @apply w-full h-[56px] sticky top-0 flex-shrink-0;
     @apply backdrop-filter backdrop-blur-3xl;
     @apply flex items-center justify-between;
-    @apply p-[24px];
+    @apply px-[24px];
 
-    .profile-menu {
-      @apply flex items-center;
-      &__text {
-        @apply mr-4;
+    .navbar-layout__left {
+      @apply w-full h-full flex;
+      .logo {
+        @apply h-full py-3;
+        svg {
+          @apply h-full;
+        }
+      }
+    }
+    .navbar-layout__center {
+    }
+    .navbar-layout__right {
+      @apply w-full flex justify-end;
+      .profile-menu {
+        @apply flex items-center;
+        &__text {
+          @apply mr-4;
+        }
       }
     }
   }

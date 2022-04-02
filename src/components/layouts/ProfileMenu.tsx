@@ -34,7 +34,10 @@ const ProfileMenu: React.FC = () => {
     <>
       <button className="profile-menu" onClick={openMenu}>
         <div className="profile-menu__text">{displayName}</div>
-        <Avatar src={authInstance.authUserQuery.data?.photoURL ?? undefined} />
+        <Avatar
+          sx={{ width: '32px', height: '32px' }}
+          src={authInstance.authUserQuery.data?.photoURL ?? undefined}
+        />
         <KeyboardArrowDownOutlined />
       </button>
       <DMenu

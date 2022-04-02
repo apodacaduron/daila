@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom"
-import NavbarLayout from "./NavbarLayout"
-import SidebarLayout from "./SidebarLayout"
+import { Outlet } from 'react-router-dom'
+import NavbarLayout from './NavbarLayout'
+import SidebarLayout from './SidebarLayout'
 import '../assets/styles/layout.scss'
 
-const MainLayout: React.FC = (props) => {
+const MainLayout: React.FC = () => {
   return <div className="main-layout">
     <SidebarLayout />
     <div className="main-layout__content">

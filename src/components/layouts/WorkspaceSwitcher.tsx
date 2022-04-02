@@ -47,7 +47,6 @@ const WorkspaceSwitcher: React.FC = () => {
   }
 
   function stringAvatar(name: string) {
-    console.log(stringToHex(name))
     return {
       sx: {
         bgcolor: stringToHex(name),
