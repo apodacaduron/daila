@@ -18,7 +18,7 @@
     .workspace-switcher {
       @apply flex items-center justify-between;
       @apply w-full h-[80px] text-left text-sm;
-      @apply p-6;
+      @apply px-6 pt-6 mb-6;
       &__text {
         span {
           @apply text-text-secondary text-xs;
@@ -44,7 +44,7 @@
     .navbar-layout__center {
     }
     .navbar-layout__right {
-      @apply w-full flex justify-end;
+      @apply w-full flex justify-end gap-2;
       .profile-menu {
         @apply flex items-center;
         &__text {
