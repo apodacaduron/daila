@@ -2,25 +2,24 @@ import React from 'react'
 import { RouteObject, useRoutes, Navigate, Outlet } from 'react-router-dom'
 import LoadingScreen from '../components/common/LoadingScreen'
 import { useAuth } from '../composables/useAuth'
+import psychologistRoutes from './psychologistRoutes'
+import teacherRoutes from './teacherRoutes'
 
-const RequireValidWorkspace = React.lazy(() => import('./RequireValidWorkspace'))
-const RequireWorkspace = React.lazy(() => import('./RequireWorkspace'))
-const RequireAuth = React.lazy(() => import('./RequireAuth'))
-const NotAuth = React.lazy(() => import('./NotAuth'))
+// Middlewares
+const WorkspaceMiddleware = React.lazy(() =>
+  import('./middleware/WorkspaceMiddleware'),
+)
+const RequireAuth = React.lazy(() => import('./middleware/RequireAuth'))
+const NotAuth = React.lazy(() => import('./middleware/NotAuth'))
 
-const MainLayout = React.lazy(() => import('../layouts/MainLayout'))
-
+// Shared routes
 const Home = React.lazy(() => import('../pages/Home'))
-const CreateWorkspace = React.lazy(() => import('../pages/workspaces/CreateWorkspace'))
+const CreateWorkspace = React.lazy(() =>
+  import('../pages/workspaces/CreateWorkspace'),
+)
 const SignIn = React.lazy(() => import('../pages/auth/SignIn'))
 const SignUp = React.lazy(() => import('../pages/auth/SignUp'))
 const PageNotFound = React.lazy(() => import('../pages/PageNotFound'))
-
-// Psychologist
-const PsychologistDashboard = React.lazy(() => import('../pages/psychologist/Dashboard'))
-
-// Teacher
-const TeacherDashboard = React.lazy(() => import('../pages/teacher/Dashboard'))
 
 const RoutesWrapper: React.FC = () => {
   const authInstance = useAuth()
@@ -47,46 +46,26 @@ const RoutesWrapper: React.FC = () => {
       ),
     },
     {
-      path: ':workspaceId/psychologist',
+      path: ':workspaceId',
       element: (
-        <RequireAuth authUserQuery={authInstance.authUserQuery}>
-          <RequireWorkspace>
-            <RequireValidWorkspace>
-              <MainLayout />
-            </RequireValidWorkspace>
-          </RequireWorkspace>
-        </RequireAuth>
+        <WorkspaceMiddleware authUserQuery={authInstance.authUserQuery} />
       ),
       children: [
         {
           path: '',
-          element: <Navigate to="dashboard" />,
+          element: <Navigate to="psychologist" />,
         },
         {
-          path: 'dashboard',
-          element: <PsychologistDashboard />,
-        },
-      ],
-    },
-    {
-      path: ':workspaceId/teacher',
-      element: (
-        <RequireAuth authUserQuery={authInstance.authUserQuery}>
-          <RequireWorkspace>
-            <RequireValidWorkspace>
-              <MainLayout />
-            </RequireValidWorkspace>
-          </RequireWorkspace>
-        </RequireAuth>
-      ),
-      children: [
-        {
-          path: '',
-          element: <Navigate to="dashboard" />,
+          path: 'psychologist',
+          children: psychologistRoutes,
         },
         {
-          path: 'dashboard',
-          element: <TeacherDashboard />,
+          path: 'teacher',
+          children: teacherRoutes,
+        },
+        {
+          path: '*',
+          element: <Navigate to="psychologist" />,
         },
       ],
     },
@@ -112,7 +91,9 @@ const RoutesWrapper: React.FC = () => {
   ]
 
   return (
-    <React.Suspense fallback={<LoadingScreen />}>{useRoutes(routes)}</React.Suspense>
+    <React.Suspense fallback={<LoadingScreen />}>
+      {useRoutes(routes)}
+    </React.Suspense>
   )
 }
 

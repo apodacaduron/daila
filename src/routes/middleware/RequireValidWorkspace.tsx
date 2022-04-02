@@ -1,6 +1,6 @@
 import { Navigate, useLocation, useParams } from 'react-router-dom'
-import LoadingScreen from '../components/common/LoadingScreen'
-import { useWorkspace } from '../composables/useWorkspace'
+import LoadingScreen from '../../components/common/LoadingScreen'
+import { useWorkspace } from '../../composables/useWorkspace'
 
 const RequireValidWorkspace: React.FC = (props) => {
   const location = useLocation()
@@ -13,9 +13,10 @@ const RequireValidWorkspace: React.FC = (props) => {
 
   const workspaceFromUrl = workspaceInstance.getWorkspaceById(workspaceId)
   const layoutFromUrl = location.pathname.split('/')[2] ?? ''
+  const workspaceMatches = workspaceFromUrl?.id === workspaceId
   const layoutMatches = workspaceFromUrl?.layout === layoutFromUrl
 
-  return Boolean(workspaceFromUrl) && layoutMatches ? (
+  return workspaceMatches && layoutMatches ? (
     <>{props.children}</>
   ) : (
     <Navigate
