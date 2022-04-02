@@ -1,18 +1,53 @@
 import { LoadingButton } from '@mui/lab'
 import { FormControl, InputLabel } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { DSelect, DTextField, StyledOption } from '../../config/material-ui/components'
+import {
+  DSelect,
+  DTextField,
+  StyledOption,
+} from '../../config/material-ui/components'
 import '../../assets/styles/workspaces.scss'
 import { useWorkspace } from '../../composables/useWorkspace'
 import type { Workspace as WorkspaceType } from '../../utils/types/workspace'
+import { workspaceLayoutOptions } from '../../utils/types/workspace'
+import { useGetUserQuery, useInvalidateUserQueries } from '../../composables/useUser'
+import { useNavigate } from 'react-router-dom'
+import React from 'react'
 
 const CreateWorkspace: React.FC = () => {
+  const [workspaceReady, setWorkspaceReady] = React.useState(false)
+  const invalidateUserQueries = useInvalidateUserQueries()
+  const getUserQuery = useGetUserQuery()
   const workspaceInstance = useWorkspace()
-  const formInstance = useForm<Pick<WorkspaceType, 'name' | 'description'>>()
+  const navigate = useNavigate()
+  const formInstance = useForm<
+    Pick<WorkspaceType, 'name' | 'description' | 'layout'>
+  >({
+    defaultValues: {
+      name: '',
+      description: '',
+      layout: workspaceLayoutOptions[0]?.value ?? 'psychologist',
+    },
+  })
 
-  const onSubmit = formInstance.handleSubmit((formValues) =>
-    workspaceInstance.createWorkspace(formValues),
-  )
+  React.useEffect(() => {
+    if (!getUserQuery.isFetching && workspaceReady) {
+      const specialistSettings = getUserQuery.data?.data()?.specialistSettings
+      const lastWorkspaceId = specialistSettings.lastWorkspaceId
+      const workspace = specialistSettings.workspaces?.[lastWorkspaceId]
+      if (lastWorkspaceId && workspace) {
+        navigate(`/${lastWorkspaceId}/${workspace.layout}`)
+      } else {
+        throw new Error('Something went wrong, we could not get your workspace')
+      }
+    }
+  }, [getUserQuery.isFetching, workspaceReady])
+
+  const onSubmit = formInstance.handleSubmit(async (formValues) =>{
+    await workspaceInstance.createWorkspace(formValues)
+    await invalidateUserQueries()
+    setWorkspaceReady(true)
+  })
 
   return (
     <div className="create-workspace">
@@ -45,13 +80,24 @@ const CreateWorkspace: React.FC = () => {
             <InputLabel shrink htmlFor="description">
               Workspace layout
             </InputLabel>
-            <DSelect defaultValue={10}>
-              <StyledOption value={10}>Ten</StyledOption>
-              <StyledOption value={20}>Twenty</StyledOption>
-              <StyledOption value={30}>Thirty</StyledOption>
+            <DSelect
+              value={formInstance.getValues().layout}
+              onChange={(value) =>
+                formInstance.setValue('layout', value ?? 'psychologist')
+              }
+            >
+              {workspaceLayoutOptions.map((workspaceLayoutOption, index) => (
+                <StyledOption key={index} value={workspaceLayoutOption.value}>
+                  {workspaceLayoutOption.text}
+                </StyledOption>
+              ))}
             </DSelect>
           </FormControl>
-          <LoadingButton type="submit" variant="contained" loading={formInstance.formState.isSubmitting}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={formInstance.formState.isSubmitting}
+          >
             Create workspace
           </LoadingButton>
         </form>

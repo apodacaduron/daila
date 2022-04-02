@@ -1,13 +1,5 @@
-import {
-  KeyboardArrowDownOutlined,
-  LogoutOutlined,
-} from '@mui/icons-material'
-import {
-  Avatar,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-} from '@mui/material'
+import { KeyboardArrowDownOutlined, LogoutOutlined } from '@mui/icons-material'
+import { Avatar, ListItemIcon, ListItemText, MenuItem } from '@mui/material'
 import React from 'react'
 import { useMenu } from 'use-mui'
 import { useAuth } from '../../composables/useAuth'
@@ -32,13 +24,17 @@ const ProfileMenu: React.FC = () => {
     menuInstance.handleClose()
   }
 
+  const displayName =
+    authInstance.authUserQuery.data?.displayName ||
+    authInstance.authUserQuery.data?.email ||
+    authInstance.authUserQuery.data?.phoneNumber ||
+    'Anonymous'
+
   return (
     <>
       <button className="profile-menu" onClick={openMenu}>
-        <div className="profile-menu__text">
-          Daniel Apodaca
-        </div>
-        <Avatar />
+        <div className="profile-menu__text">{displayName}</div>
+        <Avatar src={authInstance.authUserQuery.data?.photoURL ?? undefined} />
         <KeyboardArrowDownOutlined />
       </button>
       <DMenu

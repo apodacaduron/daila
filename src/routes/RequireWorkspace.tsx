@@ -1,6 +1,6 @@
-import { AuthError, User } from 'firebase/auth'
-import { UseQueryResult } from 'react-query'
-import { useGetUserById } from '../composables/useUser'
+import type { AuthError, User } from 'firebase/auth'
+import type { UseQueryResult } from 'react-query'
+import { useGetUserQuery } from '../composables/useUser'
 import { Navigate } from 'react-router-dom'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const RequireWorkspace: React.FC<Props> = (props) => {
-  const getUserByIdQuery = useGetUserById(props.authUserQuery.data?.uid)
+  const getUserByIdQuery = useGetUserQuery()
 
   if (getUserByIdQuery.isLoading) {
     return <div>loading...</div>

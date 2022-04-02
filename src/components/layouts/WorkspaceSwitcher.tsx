@@ -11,11 +11,15 @@ import {
   MenuItem,
 } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useMenu } from 'use-mui'
+import { useWorkspace } from '../../composables/useWorkspace'
 import { DMenu } from '../../config/material-ui/components'
 
 const WorkspaceSwitcher: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const navigate = useNavigate()
+  const workspaceInstance = useWorkspace()
   const menuInstance = useMenu({
     onClose: () => {
       setAnchorEl(null)
@@ -27,11 +31,16 @@ const WorkspaceSwitcher: React.FC = () => {
     menuInstance.setOpen(true)
   }
 
+  const navigateToCreateWorkspace = () => {
+    menuInstance.handleClose()
+    navigate('/workspaces/create')
+  }
+
   return (
     <>
       <button className="workspace-switcher" onClick={openMenu}>
         <div className="workspace-switcher__text">
-          WorkspaceSwitcher <br />
+          {workspaceInstance.currentWorkspace?.name} <br />
           <span>Switch workspaces</span>
         </div>
         <KeyboardArrowDownOutlined />
@@ -54,7 +63,7 @@ const WorkspaceSwitcher: React.FC = () => {
           </ListItemIcon>
           <ListItemText>Workspace settings</ListItemText>
         </MenuItem>
-        <MenuItem onClick={menuInstance.handleClose}>
+        <MenuItem onClick={navigateToCreateWorkspace}>
           <ListItemIcon>
             <AddOutlined fontSize="small" />
           </ListItemIcon>

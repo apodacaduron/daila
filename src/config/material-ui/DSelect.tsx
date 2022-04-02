@@ -1,4 +1,3 @@
-import * as React from 'react'
 import SelectUnstyled, {
   SelectUnstyledProps,
   selectUnstyledClasses,
@@ -63,42 +62,6 @@ const StyledButton = styled('button')(({ theme }) => ({
   },
 }))
 
-// const StyledButton = styled('button')(
-//   ({ theme }) => `
-//   box-sizing: border-box;
-//   min-height: calc(1.5em + 22px);
-//   min-width: 320px;
-//   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-//   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
-//   border-radius: 0.75em;
-//   margin-top: 0.5em;
-//   padding: 10px;
-//   text-align: left;
-//   line-height: 1.5;
-//   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-
-//   &:hover {
-//     background: ${theme.palette.mode === 'dark' ? '' : grey[100]};
-//     border-color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
-//   }
-
-//   &.${selectUnstyledClasses.focusVisible} {
-//     outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[100]};
-//   }
-
-//   &.${selectUnstyledClasses.expanded} {
-//     &::after {
-//       content: '▴';
-//     }
-//   }
-
-//   &::after {
-//     content: '▾';
-//     float: right;
-//   }
-//   `,
-// )
-
 const StyledListbox = styled('ul')(
   ({ theme }) => `
   box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.03) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.03) 0px 4px 6px -2px;
@@ -159,8 +122,8 @@ const StyledPopper = styled(PopperUnstyled)`
   width: 100%;
 `
 
-function DSelect(props: SelectUnstyledProps<number>) {
-  const components: SelectUnstyledProps<number>['components'] = {
+function DSelect(props: SelectUnstyledProps<string>) {
+  const components: SelectUnstyledProps<string>['components'] = {
     Root: StyledButton,
     Listbox: StyledListbox,
     Popper: StyledPopper,
@@ -171,18 +134,3 @@ function DSelect(props: SelectUnstyledProps<number>) {
 }
 
 export default DSelect
-
-// export default function UnstyledSelectsMultiple() {
-//   const [value, setValue] = React.useState<number | null>(10)
-//   return (
-//     <div>
-//       <DSelect value={value} onChange={setValue}>
-//         <StyledOption value={10}>Ten</StyledOption>
-//         <StyledOption value={20}>Twenty</StyledOption>
-//         <StyledOption value={30}>Thirty</StyledOption>
-//       </DSelect>
-
-//       <Paragraph>Selected value: {value}</Paragraph>
-//     </div>
-//   )
-// }

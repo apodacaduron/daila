@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom'
-import React from 'react'
-import { UseQueryResult } from 'react-query'
-import { AuthError, User } from 'firebase/auth'
+import type React from 'react'
+import type { UseQueryResult } from 'react-query'
+import type { AuthError, User } from 'firebase/auth'
 
 interface Props {
   authUserQuery: UseQueryResult<User | null, AuthError>
