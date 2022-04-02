@@ -22,6 +22,13 @@ const themeOptions: ThemeOptions = {
         }
       }
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8
+        }
+      }
+    },
   }
 }
 
