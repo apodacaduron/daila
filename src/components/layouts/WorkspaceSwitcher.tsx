@@ -38,6 +38,7 @@ const WorkspaceSwitcher: React.FC = () => {
 
   const navigateToWorkspace = (workspace: any) => {
     menuInstance.handleClose()
+    if (workspace.id === workspaceInstance.currentWorkspace.id) return
     navigate(`/${workspace.id}/${workspace.layout}`)
     workspaceInstance.switchWorkspace(workspace)
   }

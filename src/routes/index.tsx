@@ -2,6 +2,7 @@ import React from 'react'
 import { RouteObject, useRoutes, Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../composables/useAuth'
 
+const RequireValidWorkspace = React.lazy(() => import('./RequireValidWorkspace'))
 const RequireWorkspace = React.lazy(() => import('./RequireWorkspace'))
 const RequireAuth = React.lazy(() => import('./RequireAuth'))
 const NotAuth = React.lazy(() => import('./NotAuth'))
@@ -48,8 +49,10 @@ const RoutesWrapper: React.FC = () => {
       path: ':workspaceId/psychologist',
       element: (
         <RequireAuth authUserQuery={authInstance.authUserQuery}>
-          <RequireWorkspace authUserQuery={authInstance.authUserQuery}>
-            <MainLayout />
+          <RequireWorkspace>
+            <RequireValidWorkspace>
+              <MainLayout />
+            </RequireValidWorkspace>
           </RequireWorkspace>
         </RequireAuth>
       ),
@@ -68,8 +71,10 @@ const RoutesWrapper: React.FC = () => {
       path: ':workspaceId/teacher',
       element: (
         <RequireAuth authUserQuery={authInstance.authUserQuery}>
-          <RequireWorkspace authUserQuery={authInstance.authUserQuery}>
-            <MainLayout />
+          <RequireWorkspace>
+            <RequireValidWorkspace>
+              <MainLayout />
+            </RequireValidWorkspace>
           </RequireWorkspace>
         </RequireAuth>
       ),

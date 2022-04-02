@@ -12,6 +12,7 @@ export const useWorkspace = () => {
   const lastWorkspaceId = getUserQuery.data?.data()?.specialistSettings?.lastWorkspaceId
   const workspaces = getUserQuery.data?.data()?.specialistSettings?.workspaces
   const workspacesList = Object.values(getUserQuery.data?.data()?.specialistSettings?.workspaces ?? [])
+  const isLoading = getUserQuery.isLoading
 
   // State
   const [currentWorkspace, setCurrentWorkspace] = React.useState(getUserQuery.data?.data()?.specialistSettings?.workspaces?.[lastWorkspaceId])
@@ -20,14 +21,17 @@ export const useWorkspace = () => {
   const createWorkspaceMutation = useFunctionsCall(functions, 'onCreateWorkspace')
   const switchWorkspaceMutation = useFunctionsCall(functions, 'onSwitchWorkspace')
 
-
   // Handlers
-  const createWorkspace = (formData: Pick<Workspace, 'name' | 'description'>) =>
+  const createWorkspace = (formData: Pick<Workspace, 'name' | 'description' | 'layout'>) =>
     createWorkspaceMutation.mutateAsync(formData)
 
   const switchWorkspace = (workspace: any) => {
     setCurrentWorkspace(workspace)
     switchWorkspaceMutation.mutateAsync(workspace)
+  }
+
+  const workspaceExists = (workspaceId: string | undefined) => {
+    return Boolean(workspaces?.[workspaceId ?? ''])
   }
 
 
@@ -39,6 +43,7 @@ export const useWorkspace = () => {
     lastWorkspaceId,
     workspaces,
     workspacesList,
+    isLoading,
 
     // State
     currentWorkspace,
@@ -46,70 +51,6 @@ export const useWorkspace = () => {
     // Handlers
     createWorkspace,
     switchWorkspace,
+    workspaceExists,
   }
 }
-
-// export const useGetWorkspacesQuery = (userId: string | undefined) => {
-//   const workspacesCollectionRef = collection(firestore, 'workspaces')
-//   const workspaceDocRef = doc(workspacesCollectionRef)
-//   const enabled = Boolean(userId)
-
-//   const queries = enabled
-//     ? [
-//         where('s', 'array-contains', context.userId),
-//       ]
-//     : []
-//   const q = query(workspaceCollection, ...queries)
-
-//   return useFirestoreInfiniteQuery(
-//     ['workspaces', { userId }],
-//     q,
-//     (snapshot) => {
-//       const lastDocument = snapshot.docs[snapshot.docs.length - 1]
-//       if (!lastDocument) return
-//       return query(q, startAfter(lastDocument))
-//     },
-//     {},
-//     {
-//       enabled,
-//       refetchOnWindowFocus: false,
-//     },
-//   )
-// }
-
-// export const useGetWorkspacesQuery = (workspaceIds: string[]) => {
-//   const workspacesCollectionRef = collection(firestore, 'workspaces')
-//   const workspaceDocRef = doc(workspacesCollectionRef, userId)
-//   const enabled = Boolean(userId)
-
-  
-
-
-//   const queries = enabled
-//     ? [
-//         where('users', 'array-contains', context.userId),
-//       ]
-//     : []
-//   const workspaceCollection = getCollection('workspaces')
-//   const q = query(workspacesCollectionRef, )
-
-//   return useFirestoreInfiniteQuery(
-//     ['workspaces', { userId }],
-//     q,
-//     (snapshot) => {
-//       const lastDocument = snapshot.docs[snapshot.docs.length - 1]
-//       if (!lastDocument) return
-//       return query(q, startAfter(lastDocument))
-//     },
-//     {},
-//     {
-//       enabled,
-//       refetchOnWindowFocus: false,
-//     },
-//   )
-// }
-
-// export const useInvalidateWorkspacesQueries = () => {
-//   const queryClient = useQueryClient()
-//   return () => queryClient.invalidateQueries('workspaces')
-// }
