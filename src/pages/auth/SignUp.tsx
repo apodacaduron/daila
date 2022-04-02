@@ -13,9 +13,9 @@ const SignUp: React.FC = () => {
   const authInstance = useAuth()
   const formInstance = useForm<SignUpType>()
 
-  const onSubmit = formInstance.handleSubmit((formValues) =>
-    authInstance.signUpWithCredentials(formValues),
-  )
+  const onSubmit = formInstance.handleSubmit(async (formValues) =>{
+    await authInstance.signUpWithCredentials(formValues)
+  })
 
   return (
     <div className="auth">

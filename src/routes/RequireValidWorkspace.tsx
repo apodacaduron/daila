@@ -1,17 +1,28 @@
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useLocation, useParams } from 'react-router-dom'
+import LoadingScreen from '../components/common/LoadingScreen'
 import { useWorkspace } from '../composables/useWorkspace'
 
 const RequireValidWorkspace: React.FC = (props) => {
+  const location = useLocation()
   const { workspaceId } = useParams()
   const workspaceInstance = useWorkspace()
 
   if (workspaceInstance.isLoading) {
-    return <div>loading...</div>
+    return <LoadingScreen />
   }
 
-  const hasWorkspace = workspaceInstance.workspaceExists(workspaceId)
+  const workspaceFromUrl = workspaceInstance.getWorkspaceById(workspaceId)
+  const layoutFromUrl = location.pathname.split('/')[2] ?? ''
+  const layoutMatches = workspaceFromUrl?.layout === layoutFromUrl
 
-  return hasWorkspace ? <>{props.children}</> : <Navigate replace to={`/${workspaceInstance.currentWorkspace.id}/${workspaceInstance.currentWorkspace.layout}`} />
+  return Boolean(workspaceFromUrl) && layoutMatches ? (
+    <>{props.children}</>
+  ) : (
+    <Navigate
+      replace
+      to={`/${workspaceInstance.currentWorkspace.id}/${workspaceInstance.currentWorkspace.layout}`}
+    />
+  )
 }
 
 export default RequireValidWorkspace

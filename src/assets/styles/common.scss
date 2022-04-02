@@ -1,0 +1,5 @@
+.loading-screen {
+  @apply w-full h-screen fixed top-0 left-0 z-50;
+  @apply bg-opacity-80 bg-background-primary;
+  @apply flex justify-center items-center;
+}

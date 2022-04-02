@@ -11,15 +11,15 @@ import '../../assets/styles/auth.scss'
 import { DTextField } from '../../config/material-ui/components'
 import { useAuth } from '../../composables/useAuth'
 import type { SignIn as SignInType } from '../../utils/types/auth'
-import { emailValidation, passwordValidation } from '../../utils/validations'
+import { emailValidation, required } from '../../utils/validations'
 
 const SignIn: React.FC = () => {
   const authInstance = useAuth()
   const formInstance = useForm<SignInType>()
 
-  const onSubmit = formInstance.handleSubmit((formValues) =>
-    authInstance.signInWithCredentials(formValues),
-  )
+  const onSubmit = formInstance.handleSubmit(async (formValues) =>{
+    await authInstance.signInWithCredentials(formValues)
+  })
 
   return (
     <div className="auth">
@@ -53,7 +53,7 @@ const SignIn: React.FC = () => {
               type="password"
               id="password"
               error={Boolean(formInstance.formState.errors.password)}
-              {...formInstance.register('password', passwordValidation)}
+              {...formInstance.register('password', required)}
             />
             <FormHelperText>
               {formInstance.formState.errors.password?.message}

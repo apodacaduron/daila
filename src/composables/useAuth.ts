@@ -9,6 +9,7 @@ import {
 import { useFunctionsCall } from '@react-query-firebase/functions'
 import type { GoogleAuthProvider } from 'firebase/auth'
 import { auth, functions } from '../config/firebase'
+import handleError from '../utils/handleError'
 import type { SignIn, SignUp } from '../utils/types/auth'
 
 type Provider = GoogleAuthProvider
@@ -44,12 +45,21 @@ export const useAuth = () => {
     await signUpMutation.mutateAsync({})
   }
 
-  const signInWithCredentials = async (data: SignIn) =>
-    signInWithEmailAndPasswordMutation.mutateAsync(data)
+  const signInWithCredentials = async (data: SignIn) => {
+    try {
+      await signInWithEmailAndPasswordMutation.mutateAsync(data)
+    } catch (err) {
+      handleError(err)
+    }
+  }
 
   const signUpWithCredentials = async (data: SignUp) => {
-    await createUserWithEmailAndPasswordMutation.mutateAsync(data)
-    await signUpMutation.mutateAsync({})
+    try {
+      await createUserWithEmailAndPasswordMutation.mutateAsync(data)
+      await signUpMutation.mutateAsync({})
+    } catch (err) {
+      handleError(err)
+    }
   }
 
   const sendResetPasswordEmail = (data: Omit<SignIn, 'password'>) =>

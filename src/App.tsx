@@ -4,7 +4,8 @@ import theme from './config/material-ui'
 import { ThemeProvider } from '@mui/material'
 import queryClient from './config/react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-
+import { ToastContainer } from 'react-toastify'
+import { defaultConfig } from './config/react-toastify'
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <RoutesWrapper />
         <ReactQueryDevtools />
+        <ToastContainer {...defaultConfig} />
       </QueryClientProvider>
     </ThemeProvider>
   )

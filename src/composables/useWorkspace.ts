@@ -30,10 +30,9 @@ export const useWorkspace = () => {
     switchWorkspaceMutation.mutateAsync(workspace)
   }
 
-  const workspaceExists = (workspaceId: string | undefined) => {
-    return Boolean(workspaces?.[workspaceId ?? ''])
+  const getWorkspaceById = (workspaceId: string | undefined) => {
+    return workspaces?.[workspaceId ?? '']
   }
-
 
   return {
     // Mutations
@@ -51,6 +50,6 @@ export const useWorkspace = () => {
     // Handlers
     createWorkspace,
     switchWorkspace,
-    workspaceExists,
+    getWorkspaceById,
   }
 }

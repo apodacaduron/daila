@@ -1,5 +1,6 @@
 import React from 'react'
 import { RouteObject, useRoutes, Navigate, Outlet } from 'react-router-dom'
+import LoadingScreen from '../components/common/LoadingScreen'
 import { useAuth } from '../composables/useAuth'
 
 const RequireValidWorkspace = React.lazy(() => import('./RequireValidWorkspace'))
@@ -111,7 +112,7 @@ const RoutesWrapper: React.FC = () => {
   ]
 
   return (
-    <React.Suspense fallback="loading...">{useRoutes(routes)}</React.Suspense>
+    <React.Suspense fallback={<LoadingScreen />}>{useRoutes(routes)}</React.Suspense>
   )
 }
 
