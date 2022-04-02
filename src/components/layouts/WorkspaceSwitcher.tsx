@@ -14,15 +14,18 @@ import {
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMenu } from 'use-mui'
-import { useWorkspace } from '../../composables/useWorkspace'
+import type { useWorkspace } from '../../composables/useWorkspace'
 import { DMenu } from '../../config/material-ui/components'
 import { useColor } from '../../hooks/useColor'
 
-const WorkspaceSwitcher: React.FC = () => {
+interface Props {
+  workspaceInstance: ReturnType<typeof useWorkspace>
+}
+
+const WorkspaceSwitcher: React.FC<Props> = (props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const { stringToHex } = useColor()
   const navigate = useNavigate()
-  const workspaceInstance = useWorkspace()
   const menuInstance = useMenu({
     onClose: () => {
       setAnchorEl(null)
@@ -39,11 +42,11 @@ const WorkspaceSwitcher: React.FC = () => {
     navigate('/workspaces/create')
   }
 
-  const navigateToWorkspace = (workspace: any) => {
+  const switchWorkspace = (workspace: any) => {
     menuInstance.handleClose()
-    if (workspace.id === workspaceInstance.currentWorkspace.id) return
+    if (workspace.id === props.workspaceInstance.currentWorkspace.id) return
     navigate(`/${workspace.id}/${workspace.layout}`)
-    workspaceInstance.switchWorkspace(workspace)
+    props.workspaceInstance.switchWorkspace(workspace)
   }
 
   function stringAvatar(name: string) {
@@ -59,7 +62,7 @@ const WorkspaceSwitcher: React.FC = () => {
     <>
       <button className="workspace-switcher" onClick={openMenu}>
         <div className="workspace-switcher__text">
-          {workspaceInstance.currentWorkspace?.name} <br />
+          {props.workspaceInstance.currentWorkspace?.name} <br />
           <span>Switch workspaces</span>
         </div>
         <KeyboardArrowDownOutlined />
@@ -69,11 +72,11 @@ const WorkspaceSwitcher: React.FC = () => {
         onClose={menuInstance.handleClose}
         open={menuInstance.open}
       >
-        {workspaceInstance.workspacesList.map((workspace: any) => {
+        {props.workspaceInstance.workspacesList.map((workspace: any) => {
           return (
             <MenuItem
               key={workspace.id}
-              onClick={() => navigateToWorkspace(workspace)}
+              onClick={() => switchWorkspace(workspace)}
             >
               <ListItemAvatar>
                 <Avatar {...stringAvatar(workspace.name)} />

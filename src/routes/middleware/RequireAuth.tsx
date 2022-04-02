@@ -1,19 +1,15 @@
 import { Navigate } from 'react-router-dom'
 import type React from 'react'
-import type { UseQueryResult } from 'react-query'
-import type { AuthError, User } from 'firebase/auth'
 import LoadingScreen from '../../components/common/LoadingScreen'
+import { useAuth } from '../../composables/useAuth'
 
-interface Props {
-  authUserQuery: UseQueryResult<User | null, AuthError>
-}
-
-const RequireAuth: React.FC<Props> = (props) => {
-  if (props.authUserQuery.isLoading) {
+const RequireAuth: React.FC = (props) => {
+  const authInstance = useAuth()
+  if (authInstance.authUserQuery.isLoading) {
     return <LoadingScreen />
   }
 
-  return props.authUserQuery.data ? (
+  return authInstance.authUserQuery.data ? (
     <>{props.children}</>
   ) : (
     <Navigate replace to="/sign-in" />
