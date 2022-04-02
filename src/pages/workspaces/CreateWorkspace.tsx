@@ -1,16 +1,15 @@
 import { LoadingButton } from '@mui/lab'
-import { FormControl, InputLabel } from '@mui/material'
+import { FormControl, InputLabel, MenuItem } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import {
-  DSelect,
-  DTextField,
-  StyledOption,
-} from '../../config/material-ui/components'
+import { DSelect, DTextField } from '../../config/material-ui/components'
 import '../../assets/styles/workspaces.scss'
 import { useWorkspace } from '../../composables/useWorkspace'
 import type { Workspace as WorkspaceType } from '../../utils/types/workspace'
 import { workspaceLayoutOptions } from '../../utils/types/workspace'
-import { useGetUserQuery, useInvalidateUserQueries } from '../../composables/useUser'
+import {
+  useGetUserQuery,
+  useInvalidateUserQueries,
+} from '../../composables/useUser'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
 
@@ -43,7 +42,7 @@ const CreateWorkspace: React.FC = () => {
     }
   }, [getUserQuery.isFetching, workspaceReady])
 
-  const onSubmit = formInstance.handleSubmit(async (formValues) =>{
+  const onSubmit = formInstance.handleSubmit(async (formValues) => {
     await workspaceInstance.createWorkspace(formValues)
     await invalidateUserQueries()
     setWorkspaceReady(true)
@@ -77,19 +76,18 @@ const CreateWorkspace: React.FC = () => {
             />
           </FormControl>
           <FormControl variant="standard">
-            <InputLabel shrink htmlFor="description">
+            <InputLabel shrink htmlFor="layout">
               Workspace layout
             </InputLabel>
             <DSelect
-              value={formInstance.getValues().layout}
-              onChange={(value) =>
-                formInstance.setValue('layout', value ?? 'psychologist')
-              }
+              variant="outlined"
+              defaultValue={formInstance.getValues().layout}
+              {...formInstance.register('layout')}
             >
               {workspaceLayoutOptions.map((workspaceLayoutOption, index) => (
-                <StyledOption key={index} value={workspaceLayoutOption.value}>
+                <MenuItem key={index} value={workspaceLayoutOption.value}>
                   {workspaceLayoutOption.text}
-                </StyledOption>
+                </MenuItem>
               ))}
             </DSelect>
           </FormControl>
