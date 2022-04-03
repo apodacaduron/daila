@@ -36,6 +36,20 @@ const themeOptions: ThemeOptions = {
           fontSize: '12px'
         }
       }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: 0
+        }
+      }
+    },
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {
+          padding: '8px'
+        }
+      }
     }
   }
 }

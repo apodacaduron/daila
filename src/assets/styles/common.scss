@@ -29,3 +29,25 @@
     @apply flex items-center gap-4;
   }
 }
+
+// FeedbackCard
+.feedback-card {
+  &__container {
+    @apply flex flex-col justify-center items-center gap-6 my-6;
+    &__image {
+      @apply w-64 h-64;
+      svg {
+        @apply w-full h-full;
+      }
+    }
+    &__text {
+      @apply text-center;
+      &__primary {
+        @apply text-3xl;
+      }
+      &__secondary {
+        @apply text-text-secondary;
+      }
+    }
+  }
+}
