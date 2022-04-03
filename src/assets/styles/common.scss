@@ -1,9 +1,11 @@
+// LoadingScreen
 .loading-screen {
   @apply w-full h-screen fixed top-0 left-0 z-50;
   @apply bg-opacity-80 bg-background-primary;
   @apply flex justify-center items-center;
 }
 
+// TitleBar
 .title-bar {
   @apply flex justify-between items-center;
   @apply w-full px-6 py-6;
@@ -14,5 +16,16 @@
     &__secondary {
       @apply text-text-secondary;
     }
+  }
+}
+
+// TableToolbar
+.table-toolbar {
+  @apply w-full h-[48px] px-6;
+  @apply flex items-center justify-between;
+  @apply border-y border-background-tertiary;
+
+  &__actions {
+    @apply flex items-center gap-4;
   }
 }

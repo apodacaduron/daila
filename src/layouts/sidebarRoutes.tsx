@@ -1,4 +1,8 @@
-import { DashboardOutlined, PeopleOutline } from '@mui/icons-material'
+import {
+  DashboardOutlined,
+  GroupsOutlined,
+  PeopleOutline,
+} from '@mui/icons-material'
 
 const routes: Record<
   string,
@@ -8,6 +12,10 @@ const routes: Record<
     {
       path: 'dashboard',
       icon: <DashboardOutlined />,
+    },
+    {
+      path: 'patients',
+      icon: <GroupsOutlined />,
     },
     {
       path: 'users',

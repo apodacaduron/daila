@@ -33,6 +33,18 @@ const DTextField = styled(InputBase)(({ theme }) => ({
       borderColor: theme.palette.primary.main,
     },
   },
+  '& .MuiInputBase-inputSizeSmall': {
+    padding: '4px 16px',
+  },
+  '& .MuiInputAdornment-positionStart ~ .MuiInputBase-inputSizeSmall': {
+    paddingLeft: '36px'
+  },
+  '& .MuiInputAdornment-positionStart': {
+    position: 'absolute',
+    left: '8px',
+    zIndex: 1,
+    pointerEvents: 'none'
+  }
 }))
 
 export default DTextField

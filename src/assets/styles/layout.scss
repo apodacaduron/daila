@@ -44,7 +44,7 @@
     .navbar-layout__center {
     }
     .navbar-layout__right {
-      @apply w-full flex justify-end gap-2;
+      @apply w-full flex justify-end gap-4;
       .profile-menu {
         @apply flex items-center;
         &__text {
