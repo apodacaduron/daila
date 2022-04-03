@@ -6,6 +6,11 @@ import {
 import {
   Button,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   InputAdornment,
   Table,
@@ -23,9 +28,11 @@ import { useGetPatientsQuery } from '../../../composables/usePatient'
 import DTextField from '../../../config/material-ui/DTextField'
 import { useNormalizeDocuments } from '../../../hooks/useNormalizeDocuments'
 import { ReactComponent as NoRecordsSvg } from '../../../assets/svg/no-records.svg'
+import { useDialog } from 'use-mui'
 
 const Patients: React.FC = () => {
   const { workspaceId } = useParams()
+  const dialogInstance = useDialog()
   const getPatientsQuery = useGetPatientsQuery({ workspaceId })
   const patients = useNormalizeDocuments(getPatientsQuery)
   const hasPatients = Boolean(patients.length)
@@ -34,7 +41,11 @@ const Patients: React.FC = () => {
   return (
     <div className="patients">
       <TitleBar primary="Patients" secondary="View and manage your patients">
-        <Button variant="contained" size="large">
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => dialogInstance.setOpen(true)}
+        >
           Create a patient
         </Button>
       </TitleBar>
@@ -102,6 +113,20 @@ const Patients: React.FC = () => {
           <NoRecordsSvg />
         </FeedbackCard>
       )}
+      <Dialog
+        open={dialogInstance.open}
+        onClose={dialogInstance.handleClose}
+        scroll="paper"
+      >
+        <DialogTitle>Create patient</DialogTitle>
+        <DialogContent dividers>
+          <DialogContentText tabIndex={-1}>Modal</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={dialogInstance.handleClose}>Cancel</Button>
+          <Button onClick={dialogInstance.handleClose}>Create</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
