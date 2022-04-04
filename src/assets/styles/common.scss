@@ -51,3 +51,9 @@
     }
   }
 }
+
+// TablePagination
+.table-pagination {
+  @apply w-full;
+  @apply flex justify-end;
+}

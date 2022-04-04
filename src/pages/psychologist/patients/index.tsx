@@ -6,11 +6,6 @@ import {
 import {
   Button,
   Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   IconButton,
   InputAdornment,
   Table,
@@ -29,6 +24,8 @@ import DTextField from '../../../config/material-ui/DTextField'
 import { useNormalizeDocuments } from '../../../hooks/useNormalizeDocuments'
 import { ReactComponent as NoRecordsSvg } from '../../../assets/svg/no-records.svg'
 import { useDialog } from 'use-mui'
+import TablePagination from '../../../components/common/TablePagination'
+import CreatePatientDialog from '../../../components/patients/CreatePatientDialog'
 
 const Patients: React.FC = () => {
   const { workspaceId } = useParams()
@@ -68,42 +65,47 @@ const Patients: React.FC = () => {
         }
       />
       {hasPatients && (
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {patients.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell padding="checkbox">
-                    <Checkbox />
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
-                  <TableCell align="right">
-                    <IconButton>
-                      <MoreVertOutlined />
-                    </IconButton>
-                  </TableCell>
+        <>
+          <TableContainer>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="right">Email</TableCell>
+                  <TableCell align="right">Phone</TableCell>
+                  <TableCell align="right">Updated at</TableCell>
+                  <TableCell align="right">Created at</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {patients.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell padding="checkbox">
+                      <Checkbox />
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
+                    <TableCell align="right">{row.phone}</TableCell>
+                    <TableCell align="right">{row.updatedAt}</TableCell>
+                    <TableCell align="right">{row.createdAt}</TableCell>
+                    <TableCell align="right">
+                      <IconButton>
+                        <MoreVertOutlined />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination>
+            <Button disabled={!getPatientsQuery.hasNextPage}>Load more</Button>
+          </TablePagination>
+        </>
       )}
       {!hasPatients && (
         <FeedbackCard
@@ -113,20 +115,11 @@ const Patients: React.FC = () => {
           <NoRecordsSvg />
         </FeedbackCard>
       )}
-      <Dialog
+      <CreatePatientDialog
         open={dialogInstance.open}
         onClose={dialogInstance.handleClose}
         scroll="paper"
-      >
-        <DialogTitle>Create patient</DialogTitle>
-        <DialogContent dividers>
-          <DialogContentText tabIndex={-1}>Modal</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={dialogInstance.handleClose}>Cancel</Button>
-          <Button onClick={dialogInstance.handleClose}>Create</Button>
-        </DialogActions>
-      </Dialog>
+      />
     </div>
   )
 }
