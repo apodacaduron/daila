@@ -9,35 +9,35 @@ export const onCreateWorkspace = functions.https.onCall(
         'The function must be called while authenticated.',
       )
 
-    const workspacesRef = admin.firestore().collection('workspaces').doc()
-    const usersRef = admin.firestore().collection('users').doc(context.auth.uid)
+    const workspaceRef = admin.firestore().collection('workspaces').doc()
+    const userRef = admin.firestore().collection('users').doc(context.auth.uid)
 
-    await workspacesRef.set({
+    await workspaceRef.set({
       ...data,
-      id: workspacesRef.id,
+      id: workspaceRef.id,
       createdById: context.auth.uid,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     })
 
-    const specialistWorkspacesRef = workspacesRef
+    const specialistWorkspaceRef = workspaceRef
       .collection('specialists')
       .doc(context.auth.uid)
-    await specialistWorkspacesRef.set({
+    await specialistWorkspaceRef.set({
       id: context.auth.uid,
       role: 'owner',
     })
 
-    const userSnapshot = await usersRef.get()
+    const userSnapshot = await userRef.get()
     const user = userSnapshot.data()
 
-    await usersRef.update({
+    await userRef.update({
       specialistSettings: {
-        lastWorkspaceId: workspacesRef.id,
+        lastWorkspaceId: workspaceRef.id,
         workspaces: {
           ...user?.specialistSettings.workspaces,
-          [workspacesRef.id]: {
+          [workspaceRef.id]: {
             ...data,
-            id: workspacesRef.id,
+            id: workspaceRef.id,
             role: 'owner',
           },
         },

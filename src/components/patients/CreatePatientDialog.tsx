@@ -8,32 +8,38 @@ import {
   FormHelperText,
   Grid,
   InputLabel,
-  MenuItem,
 } from '@mui/material'
 import type { DialogProps } from '@mui/material'
 import DTextField from '../../config/material-ui/DTextField'
 import { emailValidation, phoneValidation, required } from '../../utils/validations'
 import { useForm } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
-import DSelect from '../../config/material-ui/DSelect'
+import { usePatient } from '../../composables/usePatient'
+import { useParams } from 'react-router-dom'
 
 interface Props extends DialogProps {
   patient?: any
 }
 
 const CreatePatientDialog: React.FC<Props> = (props) => {
+  const patientInstance = usePatient()
+  const { workspaceId } = useParams()
   const { patient, ...dialogProps } = props
   const formInstance = useForm({
     defaultValues: {
-      name: '',
-      email: '',
-      phoneNumber: '',
+      name: patient?.name ?? '',
+      email: patient?.email ?? '',
+      phoneNumber: patient?.phoneNumber ?? '',
     },
   })
 
   const onSubmit = formInstance.handleSubmit(async (formValues) => {
-    console.log(formValues)
-    // closeDialog()
+    const payload = {
+      workspaceId,
+      user: formValues
+    }
+    await patientInstance.createPatient(payload)
+    closeDialog()
   })
 
   const closeDialog = () => dialogProps.onClose?.({}, 'escapeKeyDown')
@@ -96,7 +102,7 @@ const CreatePatientDialog: React.FC<Props> = (props) => {
                   Phone number
                 </InputLabel>
                 <DTextField
-                  placeholder="+52 123-456-7890"
+                  placeholder="+521234567890"
                   type="tel"
                   id="phoneNumber"
                   error={Boolean(formInstance.formState.errors.phoneNumber)}

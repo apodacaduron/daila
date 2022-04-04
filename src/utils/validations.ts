@@ -7,7 +7,7 @@ export enum Phone {
   MinLength = 10,
 }
 const emailRegExp = /\S+@\S+\.\S+/
-const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+const phoneRegExp = /^\+?[1-9]\d{1,14}$/
 
 export const required: RegisterOptions = {
   required: 'This field is required',

@@ -81,6 +81,7 @@ const CreateWorkspace: React.FC = () => {
             </InputLabel>
             <DSelect
               variant="outlined"
+              defaultValue={formInstance.getValues().layout}
               {...formInstance.register('layout')}
             >
               {workspaceLayoutOptions.map((workspaceLayoutOption, index) => (

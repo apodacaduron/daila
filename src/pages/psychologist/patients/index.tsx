@@ -26,6 +26,7 @@ import { ReactComponent as NoRecordsSvg } from '../../../assets/svg/no-records.s
 import { useDialog } from 'use-mui'
 import TablePagination from '../../../components/common/TablePagination'
 import CreatePatientDialog from '../../../components/patients/CreatePatientDialog'
+import LoadingScreen from '../../../components/common/LoadingScreen'
 
 const Patients: React.FC = () => {
   const { workspaceId } = useParams()
@@ -64,7 +65,7 @@ const Patients: React.FC = () => {
           </>
         }
       />
-      {hasPatients && (
+      {hasPatients && !getPatientsQuery.isLoading && (
         <>
           <TableContainer>
             <Table sx={{ minWidth: 650 }}>
@@ -89,9 +90,9 @@ const Patients: React.FC = () => {
                       {row.name}
                     </TableCell>
                     <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">{row.phone}</TableCell>
-                    <TableCell align="right">{row.updatedAt}</TableCell>
-                    <TableCell align="right">{row.createdAt}</TableCell>
+                    <TableCell align="right">{row.phoneNumber}</TableCell>
+                    <TableCell align="right">{row?.updatedAt?.toString()}</TableCell>
+                    <TableCell align="right">{row.createdAt.toString()}</TableCell>
                     <TableCell align="right">
                       <IconButton>
                         <MoreVertOutlined />
@@ -103,11 +104,11 @@ const Patients: React.FC = () => {
             </Table>
           </TableContainer>
           <TablePagination>
-            <Button disabled={!getPatientsQuery.hasNextPage}>Load more</Button>
+            <Button disabled={!getPatientsQuery.hasNextPage} onClick={() => getPatientsQuery.fetchNextPage()}>Load more</Button>
           </TablePagination>
         </>
       )}
-      {!hasPatients && (
+      {!hasPatients && !getPatientsQuery.isLoading && (
         <FeedbackCard
           primary="No results"
           secondary="Looks like you don't have any patients yet"
@@ -115,6 +116,7 @@ const Patients: React.FC = () => {
           <NoRecordsSvg />
         </FeedbackCard>
       )}
+      {getPatientsQuery.isLoading && <LoadingScreen />}
       <CreatePatientDialog
         open={dialogInstance.open}
         onClose={dialogInstance.handleClose}

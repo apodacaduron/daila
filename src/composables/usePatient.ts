@@ -1,11 +1,24 @@
 import { useFirestoreInfiniteQuery } from '@react-query-firebase/firestore'
-import { collection, limit, query, startAfter, where } from 'firebase/firestore'
+import { useFunctionsCall } from '@react-query-firebase/functions'
+import { collection, limit, query, startAfter } from 'firebase/firestore'
 import { useQueryClient } from 'react-query'
-import { firestore } from '../config/firebase'
+import { firestore, functions } from '../config/firebase'
 
 export const usePatient = () => {
+  // Mutations
+  const createPatientMutation = useFunctionsCall(functions, 'onCreatePatient')
 
-  return {}
+  // Handlers
+  const createPatient = (formData: any) =>
+    createPatientMutation.mutateAsync(formData)
+
+  return {
+    // Mutations
+    createPatientMutation,
+
+    // Handlers
+    createPatient,
+  }
 }
 
 type GetPatientsQueryOptions = {
@@ -15,13 +28,12 @@ type GetPatientsQueryOptions = {
 export const useGetPatientsQuery = (
   options: GetPatientsQueryOptions,
 ) => {
-  const patientsCollectionRef = collection(firestore, 'patients')
+  const patientsCollectionRef = collection(firestore, `workspaces/${options.workspaceId}/patients`)
 
   const enabled = Boolean(options.workspaceId)
   const queries = enabled
     ? [
-      limit(options.limit ?? 2),
-      where('workspaceId', '==', options.workspaceId),
+      limit(options.limit ?? 20),
     ]
     : []
   const q = query(patientsCollectionRef, ...queries)
