@@ -64,26 +64,31 @@ export const onCreatePatient = functions.https.onCall(async (data, context) => {
 //   });
 // });
 
-// export const onDeletePatient = functions.https.onCall(async (data, context) => {
-//   if (!context.auth?.uid) return;
+export const onDeletePatient = functions.https.onCall(async (data, context) => {
+  if (!context.auth)
+    throw new functions.https.HttpsError(
+      'failed-precondition',
+      'The function must be called while authenticated.',
+    )
 
-//   const patientsRef = admin.firestore().collection("patients").doc(data.id);
-//   const patient = await patientsRef.get();
+  const patientWorkspaceRef = admin.firestore().collection("workspaces").doc(data.workspaceId).collection("patients").doc(data.userId);
+  const patient = await patientWorkspaceRef.get();
 
-//   const patientsDeletedRef = admin
-//       .firestore()
-//       .collection("patients_deleted")
-//       .doc(data.id);
-//   await patientsDeletedRef.set({
-//     ...patient.data(),
-//     isDeleted: 1,
-//     deletedById: context.auth.uid,
-//     createdAt: admin.firestore.Timestamp.fromDate(new Date(data.createdAt)),
-//     updatedAt: data.updatedAt ?
-//       admin.firestore.Timestamp.fromDate(new Date(data.updatedAt)) :
-//       null,
-//     deletedAt: admin.firestore.FieldValue.serverTimestamp(),
-//   });
+  const patientsDeletedRef = admin
+      .firestore()
+      .collection("workspaces")
+      .doc(data.workspaceId)
+      .collection('deleted_patients')
+      .doc(data.userId);
+  await patientsDeletedRef.set({
+    ...patient.data(),
+    deletedById: context.auth.uid,
+    createdAt: admin.firestore.Timestamp.fromDate(new Date(data.createdAt)),
+    updatedAt: data.updatedAt ?
+      admin.firestore.Timestamp.fromDate(new Date(data.updatedAt)) :
+      null,
+    deletedAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
 
-//   await patientsRef.delete();
-// });
+  await patientWorkspaceRef.delete();
+});

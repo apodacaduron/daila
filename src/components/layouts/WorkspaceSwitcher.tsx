@@ -23,9 +23,9 @@ interface Props {
 }
 
 const WorkspaceSwitcher: React.FC<Props> = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const { stringToHex } = useColor()
   const navigate = useNavigate()
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const menuInstance = useMenu({
     onClose: () => {
       setAnchorEl(null)
