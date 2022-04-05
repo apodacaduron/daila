@@ -1,4 +1,5 @@
 import {
+  CalendarViewWeekOutlined,
   DashboardOutlined,
   GroupsOutlined,
   PeopleOutline,
@@ -12,6 +13,10 @@ const routes: Record<
     {
       path: 'dashboard',
       icon: <DashboardOutlined />,
+    },
+    {
+      path: 'appointments',
+      icon: <CalendarViewWeekOutlined />,
     },
     {
       path: 'patients',
