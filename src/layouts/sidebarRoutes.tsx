@@ -23,7 +23,7 @@ const routes: Record<
       icon: <GroupsOutlined />,
     },
     {
-      path: 'users',
+      path: 'team-members',
       icon: <PeopleOutline />,
     },
   ],

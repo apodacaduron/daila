@@ -8,7 +8,7 @@ const Appointments = React.lazy(() =>
 const Patients = React.lazy(() =>
   import('../pages/psychologist/patients/index'),
 )
-const Users = React.lazy(() => import('../pages/psychologist/Users'))
+const TeamMembers = React.lazy(() => import('../pages/psychologist/TeamMembers'))
 
 const psychologistRoutes: RouteObject[] = [
   {
@@ -28,8 +28,8 @@ const psychologistRoutes: RouteObject[] = [
     element: <Patients />,
   },
   {
-    path: 'users',
-    element: <Users />,
+    path: 'team-members',
+    element: <TeamMembers />,
   },
 ]
 

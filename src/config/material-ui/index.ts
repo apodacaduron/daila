@@ -29,6 +29,13 @@ const themeOptions: ThemeOptions = {
         }
       }
     },
+    MuiSelect: {
+      styleOverrides: {
+        outlined: {
+          borderRadius: 8
+        }
+      }
+    },
     MuiListItemText: {
       styleOverrides: {
         secondary: {

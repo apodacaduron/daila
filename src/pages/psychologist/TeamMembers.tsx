@@ -5,10 +5,10 @@ import TitleBar from '../../components/common/TitleBar'
 import DTextField from '../../config/material-ui/DTextField'
 
 const Users: React.FC = () => (
-  <div className="users">
-    <TitleBar primary="Users" secondary="Add a new member to your workspace!">
+  <div className="team">
+    <TitleBar primary="Team members" secondary="Add a new member to your workspace!">
       <Button variant="contained" size="large">
-        Create a user
+        Add a team member
       </Button>
     </TitleBar>
     <TableToolbar

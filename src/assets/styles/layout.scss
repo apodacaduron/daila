@@ -29,7 +29,7 @@
   .navbar-layout {
     @apply w-full h-[56px] sticky top-0 flex-shrink-0;
     @apply backdrop-filter backdrop-blur-3xl;
-    @apply bg-background-primary bg-opacity-90;
+    @apply bg-[#ffffff] bg-opacity-90;
     @apply flex items-center justify-between;
     @apply px-[24px] z-50;
 
